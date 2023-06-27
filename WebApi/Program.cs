@@ -22,6 +22,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Get
 
 
 
+
+
 builder.Services.AddCors(opt => {
     opt.AddPolicy(name: myAllowSpecificOrigins,
         builder => {

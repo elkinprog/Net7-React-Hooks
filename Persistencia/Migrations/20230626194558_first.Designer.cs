@@ -12,7 +12,7 @@ using Persistencia;
 namespace Persistencia.Migrations
 {
     [DbContext(typeof(CursosOnlineContext))]
-    [Migration("20230623214116_first")]
+    [Migration("20230626194558_first")]
     partial class first
     {
         /// <inheritdoc />

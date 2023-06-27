@@ -24,26 +24,40 @@ namespace webAPI.Controllers
             return await _mediator.Send(new GetCursoQuery.GetCursoQueryRequest());
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Curso>>GetId(int id){
-        //    return await _mediator.Send(new GetCursoByIdQuery.GetCursoByIdQueryRequest { Id = id });
-        //}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Curso>> GetId(int id)
+        {
+            return await _mediator.Send(new GetCursoByIdQuery.GetCursoByIdQueryRequest { Id = id });
+        }
 
-        //[HttpPost]
-        //public async Task<ActionResult<Unit>>Post(CreateCursosComand.CreateCursosComandRequest data){
-        //  await _mediator.Send(data);
-        //    return Ok();
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Post(CreateCursosComand.CreateCursosComandRequest data)
+        {
+            await _mediator.Send(data);
+            return StatusCode(201); 
+        }
+         
 
-        //[HttpPut("id")]
-        //public async Task<ActionResult<Unit>>Put(int id , UpdateCurso.UpdateCursoRequest data)
-        //{
-        //    data.Id = id;
-        //    var result = await _mediator.Send(data);
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Curso>> Put(int id, UpdateCurso.UpdateCursoRequest data)
+        {
+            data.Id = id;
+            await _mediator.Send(data);
+            return StatusCode(204);
+        }
 
-        //    return result;
 
-        //}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Curso>>Delete(int id)
+        {
+            var command = new DeleteCurso() { Id = id };
+            await _mediator.Send(command);
+            return StatusCode(200);
+        }
+
+
+
+      
 
 
 

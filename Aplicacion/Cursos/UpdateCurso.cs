@@ -1,53 +1,48 @@
-﻿using MediatR;
-using Persistencia; 
+﻿using Dominio.Models;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Persistencia;
 
 namespace Aplicacion.Cursos
 {
     public class UpdateCurso
     {
 
-        public class UpdateCursoRequest: IRequest
+        public class UpdateCursoRequest : IRequest<Curso>
         {
-            public int Id { get; set; }
-            public string Titulo { get; set; } = default!;
-            public string Descripcion { get; set; } = default!;
-            public DateTime? FechaPublicacion { get; set; }
-            //public virtual byte[] FotoPortada { get; set; }
+            public int      Id               {get;set; } 
+            public string   Titulo           {get;set; } 
+            public string   Descripcion      {get;set; } 
+            public DateTime FechaPublicacion {get;set; }
         }
 
-        public class UpdateCursoRequestHandler : IRequestHandler<UpdateCursoRequest>
+        public class UpdateCursoRequestHandler : IRequestHandler<UpdateCursoRequest, Curso>
         {
             private readonly CursosOnlineContext _context;
 
             public UpdateCursoRequestHandler(CursosOnlineContext context)
             {
-                this._context = context;    
+                this._context = context;
             }
-            public async Task<Unit> Handle(UpdateCursoRequest request, CancellationToken cancellationToken)
+
+            public async  Task<Curso> Handle(UpdateCursoRequest request, CancellationToken cancellationToken)
             {
-                var curso = await  _context.Curso.FindAsync(request.Id);
+                var curso = await _context.Curso.FirstOrDefaultAsync(p => p.Id == request.Id);
+
                 if (curso == null) 
                 {
-                    throw new Exception("El curso no existe");
-                }
-                curso.Titulo= request.Titulo ?? curso.Titulo;  
-                curso.Descripcion = request.Descripcion ?? curso.Descripcion;
-                curso.FechaPublicacion = request.FechaPublicacion ?? curso.FechaPublicacion;
+                    throw new Exception("No existe curso con ese Id");
+                };
 
-                _context.Curso.Add(curso);
-                var result = await _context.SaveChangesAsync();
+                curso.Titulo = request.Titulo;
+                curso.Descripcion = request.Descripcion;
+                curso.FechaPublicacion = request.FechaPublicacion;
 
-                if (result >0 )
-                {
-                    return Unit.Value;
-                }
-
-                throw new Exception("No se pudo guardar curso");
-
-
-
-
+                await _context.SaveChangesAsync();
+                return curso;
             }
+
+
 
         }
     }
