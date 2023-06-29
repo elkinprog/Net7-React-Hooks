@@ -1,7 +1,10 @@
-﻿using Dominio.Models;
+﻿using Aplicacion.ManejadorErrores;
+using Azure;
+using Dominio.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistencia;
+using System.Net;
 
 namespace Aplicacion.Cursos
 {
@@ -21,16 +24,17 @@ namespace Aplicacion.Cursos
                     this._context = context;
                 }
 
-                public async Task<Curso?> Handle(GetCursoByIdQueryRequest request, CancellationToken cancellationToken)
+                public async Task<Curso> Handle(GetCursoByIdQueryRequest request, CancellationToken cancellationToken)
                 {
+                    var curso = await _context.Curso.FirstOrDefaultAsync(p => p.Id == request.Id);
 
-                    var curso = await  _context.Curso.FirstOrDefaultAsync(p => p.Id == request.Id);
+                    var validacion = await _context.Curso.FirstOrDefaultAsync(p => p.Id > 0);
 
-                    if (curso is null)
+                   
+                    if (curso == null)
                     {
-                        throw new Exception("No existe curso con ese Id");
+                        throw new ExcepcionError(HttpStatusCode.NotFound, "Algo salió mal!", "No existe curso con id " + request.Id);
                     }
-
                     return curso;
                 }
             }

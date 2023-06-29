@@ -1,4 +1,7 @@
 using Aplicacion.Cursos;
+using Aplicacion.ExcepcionMiddleware;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,13 +36,19 @@ builder.Services.AddCors(opt => {
         });
 });
 
-
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCursosComand>();
 
 builder.Services.AddControllers();
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<ManagerMidleware>();
 
 if (app.Environment.IsDevelopment())
 {

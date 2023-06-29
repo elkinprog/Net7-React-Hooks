@@ -1,8 +1,10 @@
 using Aplicacion.Cursos;
+using Aplicacion.ManejadorErrores;
 using Dominio.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace webAPI.Controllers
@@ -51,8 +53,8 @@ namespace webAPI.Controllers
         public async Task<ActionResult<Curso>>Delete(int id)
         {
             var command = new DeleteCurso() { Id = id };
-            await _mediator.Send(command);
-            return StatusCode(200);
+            var valor = await _mediator.Send(command);
+            return valor;
         }
 
 
