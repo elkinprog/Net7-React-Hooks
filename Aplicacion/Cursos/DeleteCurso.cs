@@ -38,7 +38,9 @@ namespace Aplicacion.Cursos
 
             _context.Curso.Remove(curso);   
             await _context.SaveChangesAsync();
-            return curso;
+
+            throw new ExcepcionError(HttpStatusCode.OK, "Bien echo", "Se elimino curso con id " + request.Id);
+            //return curso;
         }
     }
 }

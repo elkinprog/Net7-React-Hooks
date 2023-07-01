@@ -30,11 +30,12 @@ namespace Aplicacion.Cursos
 
                     var validacion = await _context.Curso.FirstOrDefaultAsync(p => p.Id > 0);
 
-                   
                     if (curso == null)
                     {
                         throw new ExcepcionError(HttpStatusCode.NotFound, "Algo salió mal!", "No existe curso con id " + request.Id);
                     }
+
+                    await _context.SaveChangesAsync();
                     return curso;
                 }
             }
