@@ -12,7 +12,7 @@ namespace Aplicacion.ManejadorErrores
         public ExcepcionError(HttpStatusCode codigo, string titulo, string mensaje)
         {
             this.Codigo  = codigo;
-            this.Titulo = titulo;
+            this.Titulo  = titulo;
             this.Mensaje = mensaje;
         }
     }

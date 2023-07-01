@@ -6,13 +6,13 @@ namespace WebApi.Responses
     {
 
         public HttpStatusCode Codigo { get; set; }
-        public string Titulo { get; set; }
-        public string Mensaje { get; set; }
+        public string Titulo         { get; set; }
+        public string Mensaje        { get; set; }
 
         public GenericResponse(HttpStatusCode codigo, string titulo, string mensaje)
         {
-            this.Codigo = codigo;
-            this.Titulo = titulo;
+            this.Codigo  = codigo;
+            this.Titulo  = titulo;
             this.Mensaje = mensaje;
         }
 

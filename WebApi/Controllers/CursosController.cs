@@ -36,7 +36,7 @@ namespace webAPI.Controllers
         public async Task<IActionResult> Post(CreateCursosComand.CreateCursosComandRequest data)
         {
             await _mediator.Send(data);
-            return StatusCode(201); 
+            return Ok(); 
         }
          
 
@@ -44,8 +44,8 @@ namespace webAPI.Controllers
         public async Task<ActionResult<Curso>> Put(int id, UpdateCurso.UpdateCursoRequest data)
         {
             data.Id = id;
-            await _mediator.Send(data);
-            return StatusCode(204);
+            var valor = await _mediator.Send(data);
+            return valor;
         }
 
 
@@ -56,14 +56,6 @@ namespace webAPI.Controllers
             var valor = await _mediator.Send(command);
             return valor;
         }
-
-
-
-      
-
-
-
-
 
     } 
 }
