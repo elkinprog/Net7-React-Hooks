@@ -1,6 +1,5 @@
 ﻿using Dominio.Models;
-using Microsoft.AspNet.Identity;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace Persistencia.Context
 {
