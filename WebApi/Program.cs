@@ -40,6 +40,8 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCursosComand>();
 
+
+
 builder.Services.AddControllers();
 
 
