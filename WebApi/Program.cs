@@ -1,15 +1,21 @@
 using Aplicacion.Cursos;
 using Aplicacion.ExcepcionMiddleware;
 using Aplicacion.ServiceExtencions;
+using Dominio.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Persistencia;
+using Persistencia.Context;
 using System;
 using System.Reflection;
 
@@ -25,17 +31,9 @@ builder.Services.AddDbContext<CursosOnlineContext>(options =>
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetCursoQuery.GetCursoQueryHandler).GetTypeInfo().Assembly));
 
-
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
-
-
-//var builder2 = builder.Services.AddIdentityCore<Usuario>();
-//var identityBuilder = new IdentityBuilder(builder2.UserType,builder.Services);
-//identityBuilder.AddEntityFrameworkStores<CursosOnlineContext>();
-//identityBuilder.AddSignInManager<SignInManager<Usuario>>();
-
-
+builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
 
 
 builder.Services.AddCors(opt => {
@@ -84,6 +82,9 @@ using (var ambiente = app.Services.CreateScope())
     {
         var context = services.GetRequiredService<CursosOnlineContext>();
         await context.Database.MigrateAsync();
+
+        var userManager = services.GetRequiredService<UserManager<Usuario>>();
+        await DataPrueba.InsertarData(context,userManager);
     }
     catch (Exception e)
     {

@@ -26,9 +26,9 @@ namespace Aplicacion.Cursos
 
                 public async Task<Curso> Handle(GetCursoByIdQueryRequest request, CancellationToken cancellationToken)
                 {
-                    var curso = await _context.Curso.FirstOrDefaultAsync(p => p.Id == request.Id);
+                    var curso = await _context.Curso.FindAsync(request.Id);
 
-                    var validacion = await _context.Curso.FirstOrDefaultAsync(p => p.Id > 0);
+                    //var validacion = await _context.Curso.FirstOrDefaultAsync(p => p.Id > 0);
 
                     if (curso == null)
                     {

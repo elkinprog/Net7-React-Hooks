@@ -54,7 +54,7 @@ namespace Aplicacion.Cursos
                     throw new ExcepcionError(HttpStatusCode.NotFound, "Algo salió mal!", "No existe curso con id " + request.Id);
                 }
 
-                curso.Id = request.Id;
+                //curso.Id = request.Id;
                 curso.Titulo = request.Titulo;
                 curso.Descripcion = request.Descripcion;
                 curso.FechaPublicacion = request.FechaPublicacion;

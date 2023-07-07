@@ -10,7 +10,7 @@ namespace Persistencia.Context
         {
             if (!usuarioManager.Users.Any())
             {
-                var usuario = new Usuario { NombreCompleto = "Elkin Rojas ", UserName = "Elkin Prog", Email = "elkinprog@gmail.com" };
+                var usuario = new Usuario { NombreCompleto = "Elkin Rojas", UserName = "Elkin Prog", Email = "elkinprog@gmail.com" };
                 await  usuarioManager.CreateAsync(usuario, "password123");
             }
         }
