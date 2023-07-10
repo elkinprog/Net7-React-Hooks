@@ -1,41 +1,33 @@
 using Aplicacion.Cursos;
-using Aplicacion.ManejadorErrores;
 using Dominio.Models;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
+using WebApi.Controllers;
 
 namespace webAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CursosController : ControllerBase
+    public class CursosController : MiControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public CursosController(IMediator mediator)
-        {
-            this._mediator = mediator;
-        }
-
+       
         [HttpGet]
         public async Task<ActionResult<List<Curso>>> Get()
         {
-            return await _mediator.Send(new GetCursoQuery.GetCursoQueryRequest());
+            return await Mediator!.Send(new GetCursoQuery.GetCursoQueryRequest());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Curso>> GetId(int id)
         {
-            return await _mediator.Send(new GetCursoByIdQuery.GetCursoByIdQueryRequest { Id = id });
+            return await Mediator!.Send(new GetCursoByIdQuery.GetCursoByIdQueryRequest { Id = id });
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(CreateCursosComand.CreateCursosComandRequest data)
         {
-            await _mediator.Send(data);
+            await Mediator!.Send(data);
             return Ok(); 
         }
          
@@ -44,7 +36,7 @@ namespace webAPI.Controllers
         public async Task<ActionResult<Curso>> Put(int id, UpdateCurso.UpdateCursoRequest data)
         {
             data.Id = id;
-            var valor = await _mediator.Send(data);
+            var valor = await Mediator!.Send(data);
             return valor;
         }
 
@@ -53,7 +45,7 @@ namespace webAPI.Controllers
         public async Task<ActionResult<Curso>>Delete(int id)
         {
             var command = new DeleteCurso() { Id = id };
-            var valor = await _mediator.Send(command);
+            var valor = await Mediator!.Send(command);
             return valor;
         }
 
