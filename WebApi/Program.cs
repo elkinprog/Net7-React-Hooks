@@ -1,23 +1,30 @@
+using Aplicacion.Contratos;
 using Aplicacion.Cursos;
 using Aplicacion.ExcepcionMiddleware;
 using Aplicacion.ServiceExtencions;
+using Azure.Core.GeoJson;
 using Dominio.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Persistencia;
 using Persistencia.Context;
+using Seguridad.TokenSeguridad;
 using System;
 using System.Reflection;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -30,10 +37,27 @@ builder.Services.AddDbContext<CursosOnlineContext>(options =>
 
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetCursoQuery.GetCursoQueryHandler).GetTypeInfo().Assembly));
-
-builder.Services.AddAuthentication();
-builder.Services.ConfigureIdentity();
 builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
+
+builder.Services.AddScoped<IJwtGenerador, JwtGenerador>();
+
+
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Mi palabra secreta"));
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true, // cualquier tipo de request de un cliente tiene que ser validado directamente por la logica que se puso en el token 
+        IssuerSigningKey = key,
+        ValidateAudience = false,
+        ValidateIssuer   = false,
+    };
+
+});
+
+builder.Services.ConfigureIdentity();
+
 
 
 builder.Services.AddCors(opt => {
@@ -52,7 +76,13 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateCursosComand>();
 
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(opt =>
+{
+    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    opt.Filters.Add(new AuthorizeFilter(policy));
+});
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

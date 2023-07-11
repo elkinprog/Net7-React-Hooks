@@ -1,6 +1,7 @@
-﻿using Aplicacion.ManejadorErrores;
+﻿using Aplicacion.Contratos;
+using Aplicacion.ManejadorErrores;
+using Dominio.Dtos;
 using Dominio.Models;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
@@ -9,33 +10,35 @@ namespace Aplicacion.Seguridad.Login
 {
     public  class GetLogin
     {
-        public class getLoginRequest: IRequest<Usuario>
+        public class getLoginRequest: IRequest<UsuarioDto>
         {
             public string Email    {get; set;}
             public string Password {get; set;}
         }
 
-        public class GetLoginHandler : IRequestHandler<getLoginRequest, Usuario>
+        public class GetLoginHandler : IRequestHandler<getLoginRequest, UsuarioDto>
         {
             private readonly UserManager<Usuario> _userManager;
             private readonly SignInManager<Usuario> _signInManager;
+            private readonly IJwtGenerador _jwtGenerador;
 
-            public GetLoginHandler(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
+            public GetLoginHandler(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager, IJwtGenerador jwtGenerador)
             {
                 this._userManager = userManager;
                 this._signInManager = signInManager;
+                this._jwtGenerador  = jwtGenerador; 
             }
 
-            public class GetLoginValidation: AbstractValidator<getLoginRequest>
-            {
-                public GetLoginValidation()
-                {
-                    RuleFor(x => x.Email).NotEmpty();
-                    RuleFor(x => x.Password).NotEmpty();
-                }
-            }
+            //public class GetLoginValidation: AbstractValidator<getLoginRequest>
+            //{
+            //    public GetLoginValidation()
+            //    {
+            //        RuleFor(x => x.Email).NotEmpty();
+            //        RuleFor(x => x.Password).NotEmpty();
+            //    }
+            //}
 
-            public async Task<Usuario> Handle(getLoginRequest request, CancellationToken cancellationToken)
+            public async Task<UsuarioDto> Handle(getLoginRequest request, CancellationToken cancellationToken)
             {
                 var usuario = await _userManager.FindByEmailAsync(request.Email);
 
@@ -46,13 +49,21 @@ namespace Aplicacion.Seguridad.Login
 
                 var result = await _signInManager.CheckPasswordSignInAsync(usuario, request.Password, false);
 
-                if (result.Succeeded)
+                if (result.Succeeded)   
                 {
-                    return usuario;
+                    return new UsuarioDto
+                    {
+                        NombreCompleto = usuario.NombreCompleto,
+                        Token          = _jwtGenerador.CrearToken(usuario),
+                        Email          = usuario.Email,
+                        UserName       = usuario.UserName,
+                        Imagen         = null,       
+                    };
                 }
 
                 throw new ExcepcionError(HttpStatusCode.Unauthorized, "Algo salio mal!", "No ingresó password registrado  " + request.Password);
             }
+
         }
 
     }
