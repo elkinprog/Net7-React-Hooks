@@ -1,10 +1,10 @@
 ﻿using Aplicacion.Contratos;
-using Aplicacion.ManejadorErrores;
 using Dominio.Dtos;
 using Dominio.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
+using WebApi.Responses;
 
 namespace Aplicacion.Seguridad.Login
 {
@@ -44,7 +44,7 @@ namespace Aplicacion.Seguridad.Login
 
                 if (usuario == null)
                 {
-                    throw new ExcepcionError(HttpStatusCode.Unauthorized, "Algo salio mal!", "No ingresó correo registrado  " + request.Email);
+                    throw new GenericResponse(HttpStatusCode.Unauthorized, "Algo salio mal!", "No ingresó correo registrado  " + request.Email);
                 }
 
                 var result = await _signInManager.CheckPasswordSignInAsync(usuario, request.Password, false);
@@ -61,7 +61,7 @@ namespace Aplicacion.Seguridad.Login
                     };
                 }
 
-                throw new ExcepcionError(HttpStatusCode.Unauthorized, "Algo salio mal!", "No ingresó password registrado  " + request.Password);
+                throw new GenericResponse(HttpStatusCode.Unauthorized, "Algo salio mal!", "No ingresó password registrado  " + request.Password);
             }
 
         }

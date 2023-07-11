@@ -1,16 +1,8 @@
-﻿using Aplicacion.ManejadorErrores;
-using Dominio.Models;
+﻿using Dominio.Models;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.EntityFrameworkCore;
 using Persistencia;
 using System.Net;
-using System.Reflection.Metadata;
-using System.Text.RegularExpressions;
-using System.Threading.Channels;
 using WebApi.Responses;
 
 namespace Aplicacion.Cursos
@@ -51,7 +43,7 @@ namespace Aplicacion.Cursos
 
                 if (curso == null)
                 {
-                    throw new ExcepcionError(HttpStatusCode.NotFound, "Algo salió mal!", "No existe curso con id " + request.Id);
+                    throw new GenericResponse(HttpStatusCode.NotFound, "Algo salió mal!", "No existe curso con id " + request.Id);
                 }
 
                 //curso.Id = request.Id;
@@ -60,7 +52,7 @@ namespace Aplicacion.Cursos
                 curso.FechaPublicacion = request.FechaPublicacion;
 
                 await _context.SaveChangesAsync();
-                throw new ExcepcionError(HttpStatusCode.OK, "Bien echo!", "se actualizo curso con id " + request.Id);   
+                throw new GenericResponse(HttpStatusCode.OK, "Bien echo!", "se actualizo curso con id " + request.Id);   
             }
 
            

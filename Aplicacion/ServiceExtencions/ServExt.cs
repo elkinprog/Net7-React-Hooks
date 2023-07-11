@@ -13,13 +13,6 @@ namespace Aplicacion.ServiceExtencions
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole),services);
             builder.AddEntityFrameworkStores<CursosOnlineContext>().AddDefaultTokenProviders();
             builder.AddSignInManager<SignInManager<Usuario>>();
-
-
-            //var builder2 = builder.Services.AddIdentityCore<Usuario>();
-            //var identityBuilder = new IdentityBuilder(builder2.UserType,builder.Services);
-            //identityBuilder.AddEntityFrameworkStores<CursosOnlineContext>();
-            //identityBuilder.AddSignInManager<SignInManager<Usuario>>();
-
         }
     }
 }

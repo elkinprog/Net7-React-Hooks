@@ -1,5 +1,4 @@
 ﻿using Aplicacion.Contratos;
-using Aplicacion.ManejadorErrores;
 using Dominio.Dtos;
 using Dominio.Models;
 using MediatR;
@@ -38,19 +37,19 @@ namespace Aplicacion.Seguridad.Registrar
 
             public async Task<UsuarioDto> Handle(RegistrarUsuarioRequest request, CancellationToken cancellationToken)
             {
-                var existe = await _context.Users.Where(x => x.Email == request.Email).AnyAsync();
-                if (existe)
+                var existeEmail = await _context.Users.Where(x => x.Email == request.Email).AnyAsync();
+                if (existeEmail)
                 {
                     throw new GenericResponse(HttpStatusCode.BadRequest, "Atención!", "Ya está registrado este correo " + request.Email);
                 }
 
                 var existeUsername = await _context.Users.Where(x => x.UserName == request.Username).AnyAsync();
-
                 if (existeUsername)
                 {
-                    throw new GenericResponse(HttpStatusCode.BadRequest, "Atención!", "Ya está registrado este usuario " + request.Email);
+                    throw new GenericResponse(HttpStatusCode.BadRequest, "Atención!", "Ya está registrado este usuario " + request.Username);
                 }
 
+               
                 var usuario = new Usuario
                 {
                     NombreCompleto = request.Nombre + "" + request.Apellidos,
@@ -62,17 +61,16 @@ namespace Aplicacion.Seguridad.Registrar
 
                 if (resultado.Succeeded)
                 {
-                    //throw new GenericResponse(HttpStatusCode.BadRequest, "Bien echo!", "Se registro con exito " + request.Email);
                     return new UsuarioDto
                     {
                         NombreCompleto = usuario.NombreCompleto,
                         Token = _jwtGenerador.CrearToken(usuario),
-                        UserName = usuario.UserName
-
+                        UserName = usuario.UserName,
+                        Email = usuario.Email
                     };
                 }
 
-                throw new ExcepcionError(HttpStatusCode.NotFound, "Algo salió mal!", "No se pudo agragar usuario" + request.Email);
+                throw new GenericResponse(HttpStatusCode.NotFound, "Algo salió mal!", "Los campos no deben estar vacios " + request.Email);
             }
         }
         

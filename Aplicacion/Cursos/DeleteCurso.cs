@@ -1,9 +1,8 @@
-﻿using Aplicacion.ManejadorErrores;
-using Dominio.Models;
+﻿using Dominio.Models;
 using MediatR;
 using Persistencia;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Net;
+using WebApi.Responses;
 
 namespace Aplicacion.Cursos
 {
@@ -33,13 +32,13 @@ namespace Aplicacion.Cursos
 
             if (curso == null)
             {
-                throw new ExcepcionError(HttpStatusCode.NotFound, "Algo salió mal!", "No existe curso con id " + request.Id);
+                throw new GenericResponse(HttpStatusCode.NotFound, "Algo salió mal!", "No existe curso con id " + request.Id);
             }
 
             _context.Curso.Remove(curso);   
             await _context.SaveChangesAsync();
 
-            throw new ExcepcionError(HttpStatusCode.OK, "Bien echo", "Se elimino curso con id " + request.Id);
+            throw new GenericResponse(HttpStatusCode.OK, "Bien echo", "Se elimino curso con id " + request.Id);
             //return curso;
         }
     }

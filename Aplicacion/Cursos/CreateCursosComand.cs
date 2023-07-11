@@ -1,9 +1,9 @@
-﻿using Aplicacion.ManejadorErrores;
-using Dominio.Models;
+﻿using Dominio.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistencia;
 using System.Net;
+using WebApi.Responses;
 
 namespace Aplicacion.Cursos
 {
@@ -35,7 +35,7 @@ namespace Aplicacion.Cursos
                 };
                 context.Curso.Add(curso);
                 await context.SaveChangesAsync();
-                throw new ExcepcionError(HttpStatusCode.OK, "Bien echo!", "se creo curso con id " + curso.Id);
+                throw new GenericResponse(HttpStatusCode.OK, "Bien echo!", "se creo curso con id " + curso.Id);
             }
         }
     }

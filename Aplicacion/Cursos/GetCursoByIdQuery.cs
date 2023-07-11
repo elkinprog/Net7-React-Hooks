@@ -1,10 +1,8 @@
-﻿using Aplicacion.ManejadorErrores;
-using Azure;
-using Dominio.Models;
+﻿using Dominio.Models;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistencia;
 using System.Net;
+using WebApi.Responses;
 
 namespace Aplicacion.Cursos
 {
@@ -28,13 +26,10 @@ namespace Aplicacion.Cursos
                 {
                     var curso = await _context.Curso.FindAsync(request.Id);
 
-                    //var validacion = await _context.Curso.FirstOrDefaultAsync(p => p.Id > 0);
-
                     if (curso == null)
                     {
-                        throw new ExcepcionError(HttpStatusCode.NotFound, "Algo salió mal!", "No existe curso con id " + request.Id);
+                        throw new GenericResponse(HttpStatusCode.NotFound, "Algo salió mal!", "No existe curso con id " + request.Id);
                     }
-
                     await _context.SaveChangesAsync();
                     return curso;
                 }

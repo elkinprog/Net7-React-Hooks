@@ -1,8 +1,8 @@
-﻿using Aplicacion.ManejadorErrores;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Net;
+using WebApi.Responses;
 
 namespace Aplicacion.ExcepcionMiddleware
 {
@@ -36,7 +36,7 @@ namespace Aplicacion.ExcepcionMiddleware
                 object errores = null;
                 switch (ex)
                 {
-                    case ExcepcionError me:
+                    case GenericResponse me:
                         logger.LogError(ex, "anejador Error");
                         errores = new { Codigo = (int)me.Codigo, Titulo = me.Titulo, Mensaje = me.Mensaje };
                         context.Response.StatusCode = (int)me.Codigo;

@@ -5,9 +5,9 @@ namespace WebApi.Responses
     public class GenericResponse : Exception
     {
 
-        public HttpStatusCode Codigo { get; set; }
-        public string Titulo         { get; set; }
-        public string Mensaje        { get; set; }
+        public HttpStatusCode Codigo { get;}
+        public string Titulo;
+        public string Mensaje;        
 
         public GenericResponse(HttpStatusCode codigo, string titulo, string mensaje)
         {
