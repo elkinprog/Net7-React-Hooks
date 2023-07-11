@@ -1,4 +1,5 @@
 ﻿using Aplicacion.Seguridad.Login;
+using Aplicacion.Seguridad.Registrar;
 using Dominio.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,12 @@ namespace WebApi.Controllers
         public async  Task<ActionResult<UsuarioDto>> Login(GetLogin.getLoginRequest parametros)
         {
            return await Mediator!.Send(parametros);
+        }
+
+        [HttpPost("registrar")]
+        public  async Task<ActionResult<UsuarioDto>> Registrar(RegistrarUsuario.RegistrarUsuarioRequest registrarUsuario)
+        {
+            return await Mediator!.Send(registrarUsuario);
         }
 
     }

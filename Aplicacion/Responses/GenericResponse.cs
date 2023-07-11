@@ -2,7 +2,7 @@
 
 namespace WebApi.Responses
 {
-    public class GenericResponse
+    public class GenericResponse : Exception
     {
 
         public HttpStatusCode Codigo { get; set; }
