@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Persistencia;
 
-namespace Aplicacion.ServiceExtencions
+namespace Aplicacion.Configure_Identity
 {
     public static  class ServExt
     {

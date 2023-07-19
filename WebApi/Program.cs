@@ -1,8 +1,8 @@
+using Aplicacion.Add_Authentication;
+using Aplicacion.Configure_Identity;
 using Aplicacion.Contratos;
 using Aplicacion.Cursos;
 using Aplicacion.ExcepcionMiddleware;
-using Aplicacion.ServiceExtencions;
-using Azure.Core.GeoJson;
 using Dominio.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -22,6 +22,7 @@ using Microsoft.IdentityModel.Tokens;
 using Persistencia;
 using Persistencia.Context;
 using Seguridad.TokenSeguridad;
+using ServiceStack;
 using System;
 using System.Reflection;
 using System.Text;
@@ -37,25 +38,15 @@ builder.Services.AddDbContext<CursosOnlineContext>(options =>
 
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetCursoQuery.GetCursoQueryHandler).GetTypeInfo().Assembly));
+
 builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
 
 builder.Services.AddScoped<IJwtGenerador, JwtGenerador>();
+builder.Services.AddScoped<IUsuarioSesion, UsuarioSesion>();
 
 
-var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Mi palabra secreta"));
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
-{
-    opt.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true, // cualquier tipo de request de un cliente tiene que ser validado directamente por la logica que se puso en el token 
-        IssuerSigningKey = key,
-        ValidateAudience = false,
-        ValidateIssuer   = false,
-    };
-
-});
-
+builder.Services.ConfigureServices();
 builder.Services.ConfigureIdentity();
 
 
@@ -90,6 +81,8 @@ var app = builder.Build();
 
 app.UseMiddleware<ManagerMidleware>();
 
+app.UseAuthentication();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -98,8 +91,8 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 
-app.UseAuthorization();
 
+app.UseAuthorization();
 app.MapControllers();
 
 
