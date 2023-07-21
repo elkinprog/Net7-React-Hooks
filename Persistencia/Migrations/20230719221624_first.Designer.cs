@@ -12,7 +12,7 @@ using Persistencia;
 namespace Persistencia.Migrations
 {
     [DbContext(typeof(CursosOnlineContext))]
-    [Migration("20230707025200_first")]
+    [Migration("20230719221624_first")]
     partial class first
     {
         /// <inheritdoc />
@@ -27,11 +27,9 @@ namespace Persistencia.Migrations
 
             modelBuilder.Entity("Dominio.Models.Comentario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Alumno")
                         .IsRequired()
@@ -43,8 +41,8 @@ namespace Persistencia.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int>("CursoId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CursoId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Puntaje")
                         .HasColumnType("int");
@@ -58,11 +56,9 @@ namespace Persistencia.Migrations
 
             modelBuilder.Entity("Dominio.Models.Curso", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
@@ -88,11 +84,11 @@ namespace Persistencia.Migrations
 
             modelBuilder.Entity("Dominio.Models.CursoInstructor", b =>
                 {
-                    b.Property<int>("InstructorId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("InstructorId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CursoId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CursoId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("InstructorId", "CursoId");
 
@@ -103,11 +99,9 @@ namespace Persistencia.Migrations
 
             modelBuilder.Entity("Dominio.Models.Instructor", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Apellido")
                         .IsRequired()
@@ -117,8 +111,9 @@ namespace Persistencia.Migrations
                     b.Property<byte[]>("FotoPerfil")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int>("Grado")
-                        .HasColumnType("int");
+                    b.Property<string>("Grado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -132,14 +127,12 @@ namespace Persistencia.Migrations
 
             modelBuilder.Entity("Dominio.Models.Precio", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CursoId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CursoId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("PrecioActual")
                         .HasColumnType("int");
@@ -370,7 +363,7 @@ namespace Persistencia.Migrations
             modelBuilder.Entity("Dominio.Models.CursoInstructor", b =>
                 {
                     b.HasOne("Dominio.Models.Curso", "Curso")
-                        .WithMany("CursoLink")
+                        .WithMany("InstructoresLink")
                         .HasForeignKey("CursoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -452,7 +445,7 @@ namespace Persistencia.Migrations
                 {
                     b.Navigation("ComentarioLista");
 
-                    b.Navigation("CursoLink");
+                    b.Navigation("InstructoresLink");
 
                     b.Navigation("PrecioPromocion");
                 });

@@ -1,5 +1,6 @@
 using Aplicacion.Cursos;
 using Dominio.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace webAPI.Controllers
     {
        
         [HttpGet]
-        public async Task<ActionResult<List<Curso>>> Get()
+        public async Task<ActionResult<List<CursoDto>>> Get()
         {
             return await Mediator!.Send(new GetCursoQuery.GetCursoQueryRequest());
         }

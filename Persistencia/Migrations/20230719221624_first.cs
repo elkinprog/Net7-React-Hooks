@@ -55,8 +55,7 @@ namespace Persistencia.Migrations
                 name: "Curso",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Titulo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     FechaPublicacion = table.Column<DateTime>(type: "datetime2", maxLength: 50, nullable: false),
@@ -71,11 +70,10 @@ namespace Persistencia.Migrations
                 name: "Instructor",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Apellido = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Grado = table.Column<int>(type: "int", nullable: false),
+                    Grado = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FotoPerfil = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
@@ -193,12 +191,11 @@ namespace Persistencia.Migrations
                 name: "Comentario",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Alumno = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Puntaje = table.Column<int>(type: "int", nullable: false),
                     ComentarioTexto = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    CursoId = table.Column<int>(type: "int", nullable: false)
+                    CursoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -215,11 +212,10 @@ namespace Persistencia.Migrations
                 name: "Precio",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PrecioActual = table.Column<int>(type: "int", nullable: false),
                     Promocion = table.Column<int>(type: "int", nullable: false),
-                    CursoId = table.Column<int>(type: "int", nullable: false)
+                    CursoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -236,8 +232,8 @@ namespace Persistencia.Migrations
                 name: "CursoInstructor",
                 columns: table => new
                 {
-                    InstructorId = table.Column<int>(type: "int", nullable: false),
-                    CursoId = table.Column<int>(type: "int", nullable: false)
+                    InstructorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CursoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {

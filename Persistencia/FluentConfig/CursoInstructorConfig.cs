@@ -14,7 +14,7 @@ namespace Persistencia.FluentConfig
 
             entity
                 .HasOne<Curso>(sc => sc.Curso)
-                .WithMany(sc => sc.CursoLink)
+                .WithMany(sc => sc.InstructoresLink)
                 .HasForeignKey(sc => sc.CursoId);
 
             entity

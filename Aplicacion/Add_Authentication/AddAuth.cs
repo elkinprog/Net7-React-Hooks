@@ -1,6 +1,4 @@
-﻿using FluentAssertions.Common;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -10,7 +8,7 @@ namespace Aplicacion.Add_Authentication
     public static class AddAuth
     {
        
-        public static void ConfigureServices(this IServiceCollection services)
+        public static void ConfigureAuthentication(this IServiceCollection services)
         {
             var build = services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
             {

@@ -7,7 +7,6 @@ using Dominio.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -18,14 +17,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Persistencia;
 using Persistencia.Context;
 using Seguridad.TokenSeguridad;
 using ServiceStack;
 using System;
 using System.Reflection;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -44,9 +41,10 @@ builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
 builder.Services.AddScoped<IJwtGenerador, JwtGenerador>();
 builder.Services.AddScoped<IUsuarioSesion, UsuarioSesion>();
 
+builder.Services.AddAutoMapper(typeof (GetCursoQuery.GetCursoQueryHandler));
 
 
-builder.Services.ConfigureServices();
+builder.Services.ConfigureAuthentication();
 builder.Services.ConfigureIdentity();
 
 
