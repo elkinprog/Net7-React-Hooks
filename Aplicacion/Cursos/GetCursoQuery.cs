@@ -28,7 +28,7 @@ namespace Aplicacion.Cursos
                 var cursos = await context.Curso
                    .Include(x => x.InstructoresLink)
                    .ThenInclude(x => x.Instructor).ToListAsync();
-
+                    
                 var cursoDto = _mapper.Map<List<Curso>, List<CursoDto>>(cursos);
 
                 return cursoDto;

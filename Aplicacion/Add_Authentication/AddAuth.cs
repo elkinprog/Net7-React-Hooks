@@ -18,7 +18,7 @@ namespace Aplicacion.Add_Authentication
                 {
                     ValidateIssuerSigningKey = true, // cualquier tipo de request de un cliente tiene que ser validado directamente por la logica que se puso en el token 
                     IssuerSigningKey = key,
-                    ValidateAudience = false,
+                    ValidateAudience = false, // alguien con una ip pueda generar un toquen
                     ValidateIssuer = false,
                 };
             });

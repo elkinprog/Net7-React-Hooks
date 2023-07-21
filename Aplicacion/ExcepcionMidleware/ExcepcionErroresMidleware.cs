@@ -37,7 +37,7 @@ namespace Aplicacion.ExcepcionMiddleware
                 switch (ex)
                 {
                     case GenericResponse me:
-                        logger.LogError(ex, "anejador Error");
+                        logger.LogError(ex, "Manejador Errores");
                         errores = new { Codigo = (int)me.Codigo, Titulo = me.Titulo, Mensaje = me.Mensaje };
                         context.Response.StatusCode = (int)me.Codigo;
                         break;

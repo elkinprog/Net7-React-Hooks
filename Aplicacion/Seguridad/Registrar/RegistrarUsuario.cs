@@ -1,4 +1,5 @@
 ﻿using Aplicacion.Contratos;
+using AutoMapper;
 using Dominio.Dtos;
 using Dominio.Models;
 using MediatR;
@@ -26,13 +27,15 @@ namespace Aplicacion.Seguridad.Registrar
             private readonly CursosOnlineContext    _context;
             private readonly UserManager<Usuario>   _userManager;
             private readonly IJwtGenerador          _jwtGenerador;
+            private readonly IMapper _mapper;
 
 
-            public RegistrarUsuarioHandle(CursosOnlineContext context,UserManager<Usuario> userManager, IJwtGenerador jwtGenerador)
+            public RegistrarUsuarioHandle(CursosOnlineContext context,UserManager<Usuario> userManager, IJwtGenerador jwtGenerador, IMapper mapper)
             {
                 this._context = context;    
                 this._userManager = userManager;
                 this._jwtGenerador = jwtGenerador; 
+                this._mapper    = mapper;   
             }
 
             public async Task<UsuarioDto> Handle(RegistrarUsuarioRequest request, CancellationToken cancellationToken)
@@ -52,21 +55,23 @@ namespace Aplicacion.Seguridad.Registrar
                
                 var usuario = new Usuario
                 {
-                    NombreCompleto = request.Nombre + "" + request.Apellidos,
+                    NombreCompleto = request.Nombre + " " + request.Apellidos,
                     Email = request.Email,
                     UserName = request.Username
                 };
 
                var resultado = await  _userManager.CreateAsync(usuario,request.Password);
 
+                var usuarioDto = _mapper.Map<Usuario, UsuarioDto>(usuario);
+
                 if (resultado.Succeeded)
                 {
                     return new UsuarioDto
                     {
-                        NombreCompleto = usuario.NombreCompleto,
+                        NombreCompleto = usuarioDto.NombreCompleto,
                         Token = _jwtGenerador.CrearToken(usuario),
-                        UserName = usuario.UserName,
-                        Email = usuario.Email
+                        UserName = usuarioDto.UserName,
+                        Email = usuarioDto.Email
                     };
                 }
 

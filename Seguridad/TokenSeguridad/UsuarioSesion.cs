@@ -12,9 +12,8 @@ namespace Seguridad.TokenSeguridad
         {
            this._httpContextAccessor = httpContextAccessor; 
         }
-        public  string ObtenerusuarioSesion()
+        public  string ObtenerUsuarioSesion()
         {
-
             var userName =  _httpContextAccessor?.HttpContext?.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             return userName!;
         }

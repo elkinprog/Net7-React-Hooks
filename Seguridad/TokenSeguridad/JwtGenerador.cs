@@ -22,7 +22,7 @@ namespace Seguridad.TokenSeguridad
             var tokenDescripcion = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),  
+                Expires = DateTime.Now.AddDays(30),  
                 SigningCredentials = credenciales,
             };
 

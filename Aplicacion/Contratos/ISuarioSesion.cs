@@ -2,6 +2,6 @@
 {
     public  interface IUsuarioSesion
     {
-        string ObtenerusuarioSesion();
+        string ObtenerUsuarioSesion();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Aplicacion.Contratos;
+using AutoMapper;
 using Dominio.Dtos;
 using Dominio.Models;
 using MediatR;
@@ -18,30 +19,34 @@ namespace Aplicacion.Seguridad.usuario
             private readonly UserManager<Usuario> _userManager;
             private readonly IJwtGenerador _jwtGenerador;
             private readonly IUsuarioSesion _usuarioSesion;
+            private readonly IMapper _mapper;
 
-            public UsuarioActualRequestHandler(UserManager<Usuario> userManager, IJwtGenerador jwtGenerador, IUsuarioSesion usuarioSesion)
+            public UsuarioActualRequestHandler(UserManager<Usuario> userManager, IJwtGenerador jwtGenerador, IUsuarioSesion usuarioSesion, IMapper mapper)
             {
                 this._userManager = userManager;
                 this._jwtGenerador = jwtGenerador;
                 this._usuarioSesion= usuarioSesion;
+                this._mapper = mapper;   
             }
 
             public async Task<UsuarioDto> Handle(UsuarioActualRequest request, CancellationToken cancellationToken)
             {
-                var usuario = await _userManager.FindByNameAsync(_usuarioSesion.ObtenerusuarioSesion());
+                var usuario = await _userManager.FindByNameAsync(_usuarioSesion.ObtenerUsuarioSesion());
 
                 if (usuario == null)
                 {
                     throw new GenericResponse(HttpStatusCode.OK, "Algo salio mal!", "no existe usuario" + usuario.NombreCompleto);
                 }
 
+                var usuarioDto = _mapper.Map<Usuario,UsuarioDto>(usuario); 
+
                 return new UsuarioDto
                 {
-                    NombreCompleto = usuario.NombreCompleto,
-                    UserName = usuario.UserName,
+                    NombreCompleto = usuarioDto.NombreCompleto,
+                    UserName = usuarioDto.UserName,
                     Token = _jwtGenerador.CrearToken(usuario),
                     Imagen = null,
-                    Email   = usuario.Email,
+                    Email   = usuarioDto.Email,
                 };
             }
         }
