@@ -1,4 +1,5 @@
 ﻿using Aplicacion.Contratos;
+using Dominio.Dtos;
 using Dominio.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,7 +10,7 @@ namespace Seguridad.TokenSeguridad
 {
     public class JwtGenerador : IJwtGenerador
     {
-        public string CrearToken(Usuario usuario)
+        public string CrearToken(UsuarioDto usuario)
         {
             var claims = new List<Claim>
             {
@@ -29,7 +30,7 @@ namespace Seguridad.TokenSeguridad
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescripcion);
             return tokenHandler.WriteToken(token);
-
         }
+       
     }
 }

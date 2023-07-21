@@ -44,7 +44,7 @@ namespace Aplicacion.Seguridad.usuario
                 {
                     NombreCompleto = usuarioDto.NombreCompleto,
                     UserName = usuarioDto.UserName,
-                    Token = _jwtGenerador.CrearToken(usuario),
+                    Token = _jwtGenerador.CrearToken(usuarioDto),
                     Imagen = null,
                     Email   = usuarioDto.Email,
                 };

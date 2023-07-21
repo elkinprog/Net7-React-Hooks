@@ -62,20 +62,20 @@ namespace Aplicacion.Seguridad.Registrar
 
                var resultado = await  _userManager.CreateAsync(usuario,request.Password);
 
-                var usuarioDto = _mapper.Map<Usuario, UsuarioDto>(usuario);
+               var usuarioDto = _mapper.Map<Usuario, UsuarioDto>(usuario);
 
                 if (resultado.Succeeded)
                 {
                     return new UsuarioDto
                     {
                         NombreCompleto = usuarioDto.NombreCompleto,
-                        Token = _jwtGenerador.CrearToken(usuario),
+                        Token = _jwtGenerador.CrearToken(usuarioDto),
                         UserName = usuarioDto.UserName,
                         Email = usuarioDto.Email
                     };
                 }
 
-                throw new GenericResponse(HttpStatusCode.NotFound, "Algo salió mal!", "Los campos no deben estar vacios " + request.Email);
+                throw new GenericResponse(HttpStatusCode.NotFound, "Algo salió mal!", "Los campos no deben estar vacios ");
             }
         }
         

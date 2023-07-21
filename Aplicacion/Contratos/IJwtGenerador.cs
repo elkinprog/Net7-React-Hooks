@@ -1,9 +1,10 @@
-﻿using Dominio.Models;
+﻿using Dominio.Dtos;
+using Dominio.Models;
 
 namespace Aplicacion.Contratos
 {
     public  interface IJwtGenerador
     {
-        string CrearToken(Usuario usuario);
+        string CrearToken(UsuarioDto usuario);
     }
 }
