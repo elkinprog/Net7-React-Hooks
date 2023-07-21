@@ -12,6 +12,7 @@ namespace Aplicacion.Cursos
 
         public class UpdateCursoRequest : IRequest<Curso>
         {
+
             public int      Id               {get;set; } 
             public string   Titulo           {get;set; } 
             public string   Descripcion      {get;set; } 
