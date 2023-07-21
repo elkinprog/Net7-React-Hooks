@@ -2,6 +2,7 @@ using Aplicacion.Cursos;
 using Dominio.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
@@ -23,7 +24,7 @@ namespace webAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Curso>> GetId(int id)
+        public async Task<ActionResult<CursoDto>> GetId(Guid id)
         {
             return await Mediator!.Send(new GetCursoByIdQuery.GetCursoByIdQueryRequest { Id = id });
         }
