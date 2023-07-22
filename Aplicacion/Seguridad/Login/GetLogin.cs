@@ -39,7 +39,7 @@ namespace Aplicacion.Seguridad.Login
 
                 if (usuario == null)
                 {
-                    throw new GenericResponse(HttpStatusCode.Unauthorized, "Algo salio mal!", "No ingresó correo registrado  " + request.Email);
+                    throw new GenericResponse(HttpStatusCode.Unauthorized, "Algo salio mal!", "No ingresó correo registrado");
                 }
 
                 var result = await _signInManager.CheckPasswordSignInAsync(usuario, request.Password, false);
@@ -58,7 +58,7 @@ namespace Aplicacion.Seguridad.Login
                     };
                 }
 
-                throw new GenericResponse(HttpStatusCode.Unauthorized, "Algo salio mal!", "No ingresó password registrado  " + request.Password);
+                throw new GenericResponse(HttpStatusCode.Unauthorized, "Algo salio mal!", "No ingresó password registrado");
             }
 
         }

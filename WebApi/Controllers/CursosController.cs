@@ -38,7 +38,7 @@ namespace webAPI.Controllers
          
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Curso>> Put(int id, UpdateCurso.UpdateCursoRequest data)
+        public async Task<ActionResult<Curso>> Put(Guid id, UpdateCurso.UpdateCursoRequest data)
         {
             data.Id = id;
             var valor = await Mediator!.Send(data);

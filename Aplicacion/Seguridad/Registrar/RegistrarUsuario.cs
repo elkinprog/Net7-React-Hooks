@@ -43,13 +43,13 @@ namespace Aplicacion.Seguridad.Registrar
                 var existeEmail = await _context.Users.Where(x => x.Email == request.Email).AnyAsync();
                 if (existeEmail)
                 {
-                    throw new GenericResponse(HttpStatusCode.BadRequest, "Atención!", "Ya está registrado este correo " + request.Email);
+                    throw new GenericResponse(HttpStatusCode.BadRequest, "Atención!", "Ya está registrado este correo");
                 }
 
                 var existeUsername = await _context.Users.Where(x => x.UserName == request.Username).AnyAsync();
                 if (existeUsername)
                 {
-                    throw new GenericResponse(HttpStatusCode.BadRequest, "Atención!", "Ya está registrado este usuario " + request.Username);
+                    throw new GenericResponse(HttpStatusCode.BadRequest, "Atención!", "Ya está registrado este usuario");
                 }
 
                
@@ -75,7 +75,7 @@ namespace Aplicacion.Seguridad.Registrar
                     };
                 }
 
-                throw new GenericResponse(HttpStatusCode.NotFound, "Algo salió mal!", "Los campos no deben estar vacios ");
+                throw new GenericResponse(HttpStatusCode.NotFound, "Algo salió mal!", "Los campos no deben estar vacios");
             }
         }
         

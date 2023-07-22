@@ -29,6 +29,7 @@ namespace Aplicacion.Cursos
             public async Task Handle(CreateCursosComandRequest request, CancellationToken cancellationToken)
             {
                 Guid _cursoId = Guid.NewGuid();
+
                 var curso = new Curso
                 {
                     Id = _cursoId,
@@ -55,6 +56,7 @@ namespace Aplicacion.Cursos
                 }
 
                 await _context.SaveChangesAsync();
+
                 throw new GenericResponse(HttpStatusCode.OK, "Bien echo!", "se creo curso con id " + curso.Id);
             }
         }

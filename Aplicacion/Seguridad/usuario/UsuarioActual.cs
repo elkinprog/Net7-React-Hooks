@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
 using WebApi.Responses;
-
 namespace Aplicacion.Seguridad.usuario
 {
     public  class UsuarioActual
@@ -35,7 +34,7 @@ namespace Aplicacion.Seguridad.usuario
 
                 if (usuario == null)
                 {
-                    throw new GenericResponse(HttpStatusCode.OK, "Algo salio mal!", "no existe usuario" + usuario.NombreCompleto);
+                    throw new GenericResponse(HttpStatusCode.OK, "Algo salio mal!", "no existe usuario");
                 }
 
                 var usuarioDto = _mapper.Map<Usuario,UsuarioDto>(usuario); 
