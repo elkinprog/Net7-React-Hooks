@@ -6,13 +6,13 @@ using WebApi.Responses;
 
 namespace Aplicacion.Cursos
 {
-    public  class DeleteCurso: IRequest<Curso>
+    public  class DeleteCurso: IRequest<CursoDto>
     {
         public Guid Id { get; set; } 
     }
    
 
-    public class DeleteCursoHandler : IRequestHandler<DeleteCurso, Curso>
+    public class DeleteCursoHandler : IRequestHandler<DeleteCurso, CursoDto>
     {
         private readonly CursosOnlineContext _context;
 
@@ -21,7 +21,7 @@ namespace Aplicacion.Cursos
             this._context = _context;
         }
 
-        public async Task<Curso> Handle(DeleteCurso request, CancellationToken cancellationToken)
+        public async Task<CursoDto>Handle(DeleteCurso request, CancellationToken cancellationToken)
         {
             var instructoresDB = _context.CursoInstructor.Where(x => x.CursoId == request.Id);
 
@@ -30,18 +30,18 @@ namespace Aplicacion.Cursos
                 _context.CursoInstructor.Remove(instructor);
             }
 
-            var curso  = await _context.Curso.FindAsync(request.Id);
+            var curso = await _context.Curso.FindAsync(request.Id);
 
             if (curso == null)
             {
                 throw new GenericResponse(HttpStatusCode.NotFound, "Algo salió mal!", "No existe curso con este id");
             }
 
-            _context.Curso.Remove(curso);   
+            _context.Curso.Remove(curso);
             await _context.SaveChangesAsync();
 
             throw new GenericResponse(HttpStatusCode.OK, "Bien echo", "Se elimino curso");
-           
+
         }
     }
 }

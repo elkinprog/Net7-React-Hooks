@@ -1,6 +1,5 @@
 using Aplicacion.Cursos;
 using Dominio.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,17 +19,17 @@ namespace webAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<CursoDto>>> Get()
         {
-            return await Mediator!.Send(new GetCursoQuery.GetCursoQueryRequest());
+            return await Mediator!.Send(new GetCurso.GetCursoRequest());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CursoDto>> GetId(Guid id)
         {
-            return await Mediator!.Send(new GetCursoByIdQuery.GetCursoByIdQueryRequest { Id = id });
+            return await Mediator!.Send(new GetCursoId.GetCursoById { Id = id }); 
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(CreateCursosComand.CreateCursosComandRequest data)
+        public async Task<IActionResult> Post(CreateCursos.CreateCursosComand data)
         {
             await Mediator!.Send(data);
             return Ok(); 
@@ -38,7 +37,7 @@ namespace webAPI.Controllers
          
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Curso>> Put(Guid id, UpdateCurso.UpdateCursoRequest data)
+        public async Task<ActionResult<CursoDto>> Put(Guid id, UpdateCurso.UpdateCursoRequest data)
         {
             data.Id = id;
             var valor = await Mediator!.Send(data);
@@ -47,7 +46,7 @@ namespace webAPI.Controllers
 
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Curso>>Delete(Guid id)
+        public async Task<ActionResult<CursoDto>>Delete(Guid id)
         {
             var command = new DeleteCurso() { Id = id };
             var valor = await Mediator!.Send(command);

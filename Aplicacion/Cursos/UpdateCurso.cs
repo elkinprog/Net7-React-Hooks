@@ -1,5 +1,4 @@
-﻿using Dominio.Dtos;
-using Dominio.Models;
+﻿using Dominio.Models;
 using FluentValidation;
 using MediatR;
 using Persistencia;
@@ -11,7 +10,7 @@ namespace Aplicacion.Cursos
     public class UpdateCurso
     {
 
-        public class UpdateCursoRequest : IRequest<Curso>
+        public class UpdateCursoRequest : IRequest<CursoDto>
         {
 
             public Guid       Id               {get;set; } 
@@ -31,7 +30,7 @@ namespace Aplicacion.Cursos
             }
         }
 
-        public class UpdateCursoRequestHandler : IRequestHandler<UpdateCursoRequest, Curso>
+        public class UpdateCursoRequestHandler : IRequestHandler<UpdateCursoRequest, CursoDto>
         {
             private readonly CursosOnlineContext _context;
 
@@ -40,7 +39,7 @@ namespace Aplicacion.Cursos
                 this._context = context;
             }
 
-            public async Task<Curso> Handle(UpdateCursoRequest request, CancellationToken cancellationToken)
+            public async Task<CursoDto> Handle(UpdateCursoRequest request, CancellationToken cancellationToken)
             {
                 var curso = await _context.Curso.FindAsync(request.Id);
 
@@ -64,7 +63,7 @@ namespace Aplicacion.Cursos
                         {
                          _context.CursoInstructor.Remove(instructorEliminar);
                         } 
-                        //Fin del prosedimiemto para eliminar instructores
+                        //Fin del procedimiemto para eliminar instructores
 
 
                         // Procedimiento para agregar instructores que provienen del cliente

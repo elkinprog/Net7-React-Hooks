@@ -11,6 +11,7 @@ namespace Dominio.Models
            
 
         public Precio                     PrecioPromocion   { get; set; }
+
         public ICollection<Comentario>    ComentarioLista   { get; set; }
 
         public ICollection<CursoInstructor> InstructoresLink { get; set; }

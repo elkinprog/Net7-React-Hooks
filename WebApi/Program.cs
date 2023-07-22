@@ -34,14 +34,16 @@ builder.Services.AddDbContext<CursosOnlineContext>(options =>
 });
 
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetCursoQuery.GetCursoQueryHandler).GetTypeInfo().Assembly));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetCurso.GetCursoHandler).GetTypeInfo().Assembly));
 
 builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
 
 builder.Services.AddScoped<IJwtGenerador, JwtGenerador>();
 builder.Services.AddScoped<IUsuarioSesion, UsuarioSesion>();
 
-builder.Services.AddAutoMapper(typeof (GetCursoQuery.GetCursoQueryHandler));
+
+
+builder.Services.AddAutoMapper(typeof (GetCurso.GetCursoHandler));
 
 
 builder.Services.ConfigureAuthentication();
@@ -61,7 +63,7 @@ builder.Services.AddCors(opt => {
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<CreateCursosComand>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCursos>();
 
 
 

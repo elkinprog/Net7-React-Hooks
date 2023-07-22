@@ -1,5 +1,4 @@
 ﻿using Dominio.Dtos;
-using Dominio.Models;
 
 namespace Aplicacion.Contratos
 {

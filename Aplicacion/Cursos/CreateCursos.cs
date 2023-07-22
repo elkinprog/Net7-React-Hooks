@@ -1,4 +1,5 @@
-﻿using Dominio.Models;
+﻿using AutoMapper;
+using Dominio.Models;
 using MediatR;
 using Persistencia;
 using System.Net;
@@ -6,10 +7,10 @@ using WebApi.Responses;
 
 namespace Aplicacion.Cursos
 {
-    public class CreateCursosComand
+    public class CreateCursos
     {
 
-        public class CreateCursosComandRequest : IRequest
+        public class CreateCursosComand : IRequest
         {
             public string     Titulo            {get;set;}
             public string     Descripcion       {get;set;}
@@ -18,15 +19,15 @@ namespace Aplicacion.Cursos
 
         };
 
-        public class CreateCursos : IRequestHandler<CreateCursosComandRequest>
+        public class CreateCurso : IRequestHandler<CreateCursosComand>
         {
             private readonly CursosOnlineContext _context;
-
-            public CreateCursos(CursosOnlineContext context)
+            
+            public CreateCurso(CursosOnlineContext context)
             {
                 this._context = context;
             }
-            public async Task Handle(CreateCursosComandRequest request, CancellationToken cancellationToken)
+            public async Task Handle(CreateCursosComand request, CancellationToken cancellationToken)
             {
                 Guid _cursoId = Guid.NewGuid();
 
@@ -38,7 +39,9 @@ namespace Aplicacion.Cursos
                     FechaPublicacion = request.FechaPublicacion,
                 };
 
-                _context.Curso.Add(curso);
+               
+
+                 _context.Curso.Add(curso);
               
                 if (request.ListaInstructor!= null)
                 {
@@ -59,6 +62,8 @@ namespace Aplicacion.Cursos
 
                 throw new GenericResponse(HttpStatusCode.OK, "Bien echo!", "se creo curso con id " + curso.Id);
             }
+
+            
         }
     }
 }

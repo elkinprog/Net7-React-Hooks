@@ -10,11 +10,20 @@ namespace Aplicacion.Mapping
 
         public MappingProfile()
         {
+            CreateMap<Comentario, ComentarioDto>();
+
             CreateMap<Curso, CursoDto>()
-            .ForMember(x => x.Instructores, y => y.MapFrom(z => z.InstructoresLink.Select(a=>a.Instructor).ToList()));
+            .ForMember(x => x.Instructores, y => y
+            .MapFrom(z => z.InstructoresLink
+            .Select(a=>a.Instructor)
+            .ToList()));
+
+            CreateMap<CursoInstructor, CursoInstructorDto>();
 
             CreateMap<Instructor, InstructorDto>();
-            CreateMap<CursoInstructor, CursoInstructorDto>(); 
+
+            CreateMap<Precio, PrecioDto>();
+
             CreateMap<Usuario, UsuarioDto>();
 
         }

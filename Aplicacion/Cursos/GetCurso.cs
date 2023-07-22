@@ -6,16 +6,16 @@ using Persistencia;
 
 namespace Aplicacion.Cursos
 {
-    public class GetCursoQuery  
+    public class GetCurso  
     { 
-        public class GetCursoQueryRequest: IRequest <List<CursoDto>>{}
+        public class GetCursoRequest: IRequest <List<CursoDto>>{}
 
-        public class GetCursoQueryHandler : IRequestHandler<GetCursoQueryRequest, List<CursoDto>>
+        public class GetCursoHandler : IRequestHandler<GetCursoRequest, List<CursoDto>>
         {
             private readonly CursosOnlineContext context;
             private readonly IMapper _mapper;
 
-            public GetCursoQueryHandler(CursosOnlineContext _context, IMapper mapper)
+            public GetCursoHandler(CursosOnlineContext _context, IMapper mapper)
             {
                 this.context = _context;
                 this._mapper = mapper;
@@ -23,7 +23,7 @@ namespace Aplicacion.Cursos
 
           
 
-          public async Task<List<CursoDto>>Handle(GetCursoQueryRequest request, CancellationToken cancellationToken)
+          public async Task<List<CursoDto>>Handle(GetCursoRequest request, CancellationToken cancellationToken)
             {
                 var cursos = await context.Curso
                    .Include(x => x.InstructoresLink)
