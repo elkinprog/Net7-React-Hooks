@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Dominio.Models;
+﻿using Dominio.Models;
 using MediatR;
 using Persistencia;
 using System.Net;
@@ -16,6 +15,9 @@ namespace Aplicacion.Cursos
             public string     Descripcion       {get;set;}
             public DateTime   FechaPublicacion  {get;set;}
             public List<Guid> ListaInstructor   {get;set;}
+                
+            public int        PrecioActual      {get;set;}
+            public int        Promocion         {get;set;}
 
         };
 
@@ -30,7 +32,6 @@ namespace Aplicacion.Cursos
             public async Task Handle(CreateCursosComand request, CancellationToken cancellationToken)
             {
                 Guid _cursoId = Guid.NewGuid();
-
                 var curso = new Curso
                 {
                     Id = _cursoId,
@@ -38,10 +39,9 @@ namespace Aplicacion.Cursos
                     Descripcion = request.Descripcion,
                     FechaPublicacion = request.FechaPublicacion,
                 };
-
-               
-
                  _context.Curso.Add(curso);
+
+
               
                 if (request.ListaInstructor!= null)
                 {
@@ -57,6 +57,21 @@ namespace Aplicacion.Cursos
                         _context.CursoInstructor.Add(CursoInstructor);
                     }
                 }
+
+
+                // Agregar logica para insertar precio del curso
+
+                var precioEntidad = new Precio
+                {
+                    CursoId         = _cursoId,
+                    PrecioActual    = request.PrecioActual,
+                    Promocion       = request.Promocion,
+                    Id              = Guid.NewGuid(),
+                };
+                _context.Precio.Add(precioEntidad);
+
+
+
 
                 await _context.SaveChangesAsync();
 

@@ -9,7 +9,7 @@ namespace Dominio.Models
             public DateTime          FechaPublicacion { get; set; }
             public virtual byte[]    FotoPortada      { get; set; }
            
-
+            
         public Precio                     PrecioPromocion   { get; set; }
 
         public ICollection<Comentario>    ComentarioLista   { get; set; }
