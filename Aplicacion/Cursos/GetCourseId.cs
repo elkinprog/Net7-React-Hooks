@@ -8,7 +8,7 @@ using WebApi.Responses;
 
 namespace Aplicacion.Cursos
 {
-    public class GetCursoId
+    public class GetCourseId
     {
         public class GetCursoById : IRequest<CursoDto>
         {

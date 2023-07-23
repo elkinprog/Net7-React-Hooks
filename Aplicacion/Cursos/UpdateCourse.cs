@@ -7,7 +7,7 @@ using WebApi.Responses;
 
 namespace Aplicacion.Cursos
 {
-    public class UpdateCurso
+    public class UpdateCourse
     {
 
         public class UpdateCursoRequest : IRequest<CursoDto>

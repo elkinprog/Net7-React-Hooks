@@ -6,7 +6,7 @@ using WebApi.Responses;
 
 namespace Aplicacion.Cursos
 {
-    public class CreateCursos
+    public class CreateCourse
     {
 
         public class CreateCursosComand : IRequest

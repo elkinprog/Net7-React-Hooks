@@ -6,7 +6,7 @@ using Persistencia;
 
 namespace Aplicacion.Cursos
 {
-    public class GetCurso  
+    public class GetCourse  
     { 
         public class GetCursoRequest: IRequest <List<CursoDto>>{}
 
