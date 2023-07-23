@@ -13,11 +13,13 @@ namespace Aplicacion.Cursos
         public class UpdateCursoRequest : IRequest<CursoDto>
         {
 
-            public Guid       Id               {get;set; } 
-            public string     Titulo           {get;set; } 
-            public string     Descripcion      {get;set; } 
-            public DateTime   FechaPublicacion {get;set; }
-            public List<Guid> ListaInstructor  {get;set; }
+            public Guid       Id               {get;set;} 
+            public string     Titulo           {get;set;} 
+            public string     Descripcion      {get;set;} 
+            public DateTime   FechaPublicacion {get;set;}
+            public List<Guid> ListaInstructor  {get;set;}
+            public int?       PrecioActual     {get;set;}
+            public int?       Promocion        {get;set;}
         }
 
         public class UpdateCursoRequetVAlidation : AbstractValidator<UpdateCursoRequest>
@@ -53,7 +55,28 @@ namespace Aplicacion.Cursos
                 curso.Descripcion = request.Descripcion;
                 curso.FechaPublicacion = request.FechaPublicacion; 
 
-                if(request.ListaInstructor!=null)
+
+                // Logica para actualizar precio del curso
+                var precioEntidad = _context.Precio.Where(x=> x.CursoId == curso.Id).FirstOrDefault();
+                if (precioEntidad != null)
+                {
+                    precioEntidad.Promocion     = request.Promocion     ?? precioEntidad.Promocion;
+                    precioEntidad.PrecioActual  = request.PrecioActual  ?? precioEntidad.PrecioActual;
+                }
+                else
+                {
+                    precioEntidad = new Precio
+                    {
+                        Id           = Guid.NewGuid(),
+                        PrecioActual = request.PrecioActual ?? 0,
+                        Promocion    = request.Promocion ?? 0,
+                        CursoId      = curso.Id
+                    };
+                   await _context.Precio.AddAsync(precioEntidad);
+                }
+
+
+                if (request.ListaInstructor!=null)
                 {
                     if (request.ListaInstructor.Count > 0)
                     {
@@ -77,6 +100,11 @@ namespace Aplicacion.Cursos
                             _context.CursoInstructor.Add(nuevoInstructor);
                         }
                         //Fin del prosedimiemto
+
+
+
+
+
                     }
                 }
 
