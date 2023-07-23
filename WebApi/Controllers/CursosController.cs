@@ -1,5 +1,4 @@
 using Aplicacion.Cursos;
-using Dominio.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

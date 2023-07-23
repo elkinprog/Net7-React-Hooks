@@ -19,6 +19,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Persistencia;
 using Persistencia.Context;
+using Persistencia.DapperConexion;
+using Persistencia.DapperConexion.Instructor;
 using Seguridad.TokenSeguridad;
 using ServiceStack;
 using System;
@@ -34,12 +36,20 @@ builder.Services.AddDbContext<CursosOnlineContext>(options =>
 });
 
 
+builder.Services.AddOptions();
+builder.Services.Configure<ConexionConfig> (builder.Configuration.GetSection("ConnectionStrings"));
+
+
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetCourse.GetCursoHandler).GetTypeInfo().Assembly));
 
 builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
 
 builder.Services.AddScoped<IJwtGenerador, JwtGenerador>();
 builder.Services.AddScoped<IUsuarioSesion, UsuarioSesion>();
+
+builder.Services.AddTransient<IFactoryConnection,FactoryConnection>();
+builder.Services.AddScoped<IInstructor, InstructorRepositorio>();
 
 
 
