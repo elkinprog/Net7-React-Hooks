@@ -1,5 +1,4 @@
-﻿using Dominio.Models;
-using MediatR;
+﻿using MediatR;
 using Persistencia;
 using System.Net;
 using WebApi.Responses;
