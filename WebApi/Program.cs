@@ -30,34 +30,43 @@ var builder = WebApplication.CreateBuilder(args);
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 
+#region Logica conexion DB usando Context
+
 builder.Services.AddDbContext<CursosOnlineContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+#endregion
+
+
+#region Logica conexion DB usando Dapper 
 
 builder.Services.AddOptions();
 builder.Services.Configure<ConexionConfig> (builder.Configuration.GetSection("ConnectionStrings"));
+builder.Services.AddTransient<IFactoryConnection, FactoryConnection>();
+builder.Services.AddScoped<IInstructor, InstructorRepositorio>();
+
+#endregion
 
 
+#region Logica configuración JWT 
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetCourse.GetCursoHandler).GetTypeInfo().Assembly));
-
 builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
-
 builder.Services.AddScoped<IJwtGenerador, JwtGenerador>();
 builder.Services.AddScoped<IUsuarioSesion, UsuarioSesion>();
+builder.Services.ConfigureAuthentication();
+builder.Services.ConfigureIdentity();
 
-builder.Services.AddTransient<IFactoryConnection,FactoryConnection>();
-builder.Services.AddScoped<IInstructor, InstructorRepositorio>();
+#endregion
+
 
 
 
 builder.Services.AddAutoMapper(typeof (GetCourse.GetCursoHandler));
 
 
-builder.Services.ConfigureAuthentication();
-builder.Services.ConfigureIdentity();
 
 
 
