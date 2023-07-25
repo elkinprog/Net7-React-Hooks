@@ -1,13 +1,14 @@
 ﻿using Aplicacion.Contratos;
+using Aplicacion.ExcepcionMidleware;
 using AutoMapper;
 using Dominio.Dtos;
 using Dominio.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Persistencia;
+using Persistencia.ContextConexion;
 using System.Net;
-using WebApi.Responses;
+
 
 namespace Aplicacion.Seguridad.Registrar
 {

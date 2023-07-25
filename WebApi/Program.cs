@@ -1,4 +1,5 @@
-using Aplicacion.Add_Authentication;
+
+using Aplicacion.Configure_Authentication;
 using Aplicacion.Configure_Identity;
 using Aplicacion.Contratos;
 using Aplicacion.Cursos;
@@ -17,10 +18,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Persistencia;
-using Persistencia.Context;
-using Persistencia.DapperConexion;
-using Persistencia.DapperConexion.Instructor;
+using Persistencia.ContextConexion;
+using Persistencia.ContextContextConexion;
+using Persistencia.DapperConexion.ConexionDapper;
+using Persistencia.DapperConexion.InstructorRepositorio;
 using Seguridad.TokenSeguridad;
 using ServiceStack;
 using System;
@@ -40,7 +41,7 @@ builder.Services.AddDbContext<CursosOnlineContext>(options =>
 #endregion
 
 
-#region Logica conexion DB usando Dapper 
+#region Logica conexion DB usando Dapper y Stores Procedures
 
 builder.Services.AddOptions();
 builder.Services.Configure<ConexionConfig> (builder.Configuration.GetSection("ConnectionStrings"));
@@ -132,8 +133,6 @@ using (var ambiente = app.Services.CreateScope())
     {
         var loggin = services.GetRequiredService<ILogger<Program>>();
         loggin.LogError(e, "Ocurrío un error en la migración");
-
-
     }
 }
 

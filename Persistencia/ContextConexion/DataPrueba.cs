@@ -1,7 +1,8 @@
 ﻿using Dominio.Models;
 using Microsoft.AspNetCore.Identity;
+using Persistencia.ContextConexion;
 
-namespace Persistencia.Context
+namespace Persistencia.ContextContextConexion
 {
     public  class DataPrueba
     {

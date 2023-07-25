@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using System.Data;
 
-namespace Persistencia.DapperConexion
+namespace Persistencia.DapperConexion.ConexionDapper
 {
     public class FactoryConnection : IFactoryConnection
     {
@@ -12,12 +12,12 @@ namespace Persistencia.DapperConexion
 
         public FactoryConnection(IOptions<ConexionConfig> configs)
         {
-            this._configs = configs;
+            _configs = configs;
         }
 
         public void CloseConnection()
         {
-            if (_connection!= null && _connection.State == ConnectionState.Open)
+            if (_connection != null && _connection.State == ConnectionState.Open)
             {
                 _connection.Close();
             }

@@ -2,7 +2,7 @@
 using Dominio.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Persistencia;
+using Persistencia.ContextConexion;
 
 namespace Aplicacion.Cursos
 {

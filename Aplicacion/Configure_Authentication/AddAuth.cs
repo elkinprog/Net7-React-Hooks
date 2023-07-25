@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Aplicacion.Add_Authentication
+namespace Aplicacion.Configure_Authentication
 {
     public static class AddAuth
     {

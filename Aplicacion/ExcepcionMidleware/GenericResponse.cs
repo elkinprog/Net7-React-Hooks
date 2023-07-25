@@ -1,19 +1,19 @@
 ﻿using System.Net;
 
-namespace WebApi.Responses
+namespace Aplicacion.ExcepcionMidleware
 {
     public class GenericResponse : Exception
     {
 
-        public HttpStatusCode Codigo { get;}
+        public HttpStatusCode Codigo { get; }
         public string Titulo;
-        public string Mensaje;        
+        public string Mensaje;
 
         public GenericResponse(HttpStatusCode codigo, string titulo, string mensaje)
         {
-            this.Codigo  = codigo;
-            this.Titulo  = titulo;
-            this.Mensaje = mensaje;
+            Codigo = codigo;
+            Titulo = titulo;
+            Mensaje = mensaje;
         }
 
 

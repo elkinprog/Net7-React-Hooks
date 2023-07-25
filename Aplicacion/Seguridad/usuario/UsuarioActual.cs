@@ -1,11 +1,11 @@
 ﻿using Aplicacion.Contratos;
+using Aplicacion.ExcepcionMidleware;
 using AutoMapper;
 using Dominio.Dtos;
 using Dominio.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
-using WebApi.Responses;
 namespace Aplicacion.Seguridad.usuario
 {
     public  class UsuarioActual

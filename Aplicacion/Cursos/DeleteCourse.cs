@@ -1,10 +1,13 @@
-﻿using MediatR;
-using Persistencia;
+﻿using Aplicacion.Cursos;
+using Aplicacion.ExcepcionMidleware;
+using MediatR;
+using Persistencia.ContextConexion;
 using System.Net;
-using WebApi.Responses;
+
 
 namespace Aplicacion.Cursos
-{
+{ 
+
     public  class DeleteCourse: IRequest<CursoDto>
     {
         public Guid Id { get; set; } 

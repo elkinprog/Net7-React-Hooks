@@ -3,7 +3,7 @@ using AutoMapper;
 using Dominio.Dtos;
 using Dominio.Models;
 
-namespace Aplicacion.Mapping
+namespace Aplicacion.MappingDto
 {
     public  class MappingProfile: Profile
     {

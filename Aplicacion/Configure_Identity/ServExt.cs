@@ -1,7 +1,7 @@
 ﻿using Dominio.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using Persistencia;
+using Persistencia.ContextConexion;
 
 namespace Aplicacion.Configure_Identity
 {

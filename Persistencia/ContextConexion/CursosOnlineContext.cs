@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Persistencia.FluentConfig;
 
-namespace Persistencia
+namespace Persistencia.ContextConexion
 {
         public class CursosOnlineContext : IdentityDbContext<Usuario>
         {

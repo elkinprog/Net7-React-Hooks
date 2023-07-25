@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Persistencia.DapperConexion.Instructor;
 using Aplicacion.Instructores;
-
+using Dominio.StoresProcedures;
 
 namespace WebApi.Controllers
 {
@@ -14,9 +13,9 @@ namespace WebApi.Controllers
     {
 
         [HttpGet]
-        public async Task<ActionResult<List<InstructorModel>>> ObtenerInstructores()
+        public async Task<ActionResult<List<Instructor>>> ObtenerInstructores()
         {
-            return await Mediator!.Send(new Consulta.Lista());
+            return await Mediator!.Send(new GetInstructores.Lista());
         }
     }
 }

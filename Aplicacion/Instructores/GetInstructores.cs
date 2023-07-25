@@ -1,14 +1,15 @@
-﻿using MediatR;
-using Persistencia.DapperConexion.Instructor;
+﻿using Dominio.StoresProcedures;
+using MediatR;
+using Persistencia.DapperConexion.InstructorRepositorio;
 
 namespace Aplicacion.Instructores
 {
-    public class Consulta
+    public class GetInstructores
     {
 
-        public class Lista : IRequest<List<InstructorModel>> { }
+        public class Lista : IRequest<List<Instructor>> { }
 
-        public class Manejador : IRequestHandler<Lista, List<InstructorModel>>
+        public class Manejador : IRequestHandler<Lista, List<Instructor>>
         {
             private readonly IInstructor _instructorRepository;
 
@@ -17,7 +18,7 @@ namespace Aplicacion.Instructores
                 _instructorRepository = instructorRepository;
             }
              
-            public async Task<List<InstructorModel>> Handle(Lista request, CancellationToken cancellationToken)
+            public async Task<List<Instructor>> Handle(Lista request, CancellationToken cancellationToken)
             {
                     var resultado =  await _instructorRepository.ObtenerLista();
 

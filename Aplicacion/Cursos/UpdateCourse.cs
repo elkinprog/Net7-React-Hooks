@@ -1,9 +1,9 @@
-﻿using Dominio.Models;
+﻿using Aplicacion.ExcepcionMidleware;
+using Dominio.Models;
 using FluentValidation;
 using MediatR;
-using Persistencia;
+using Persistencia.ContextConexion;
 using System.Net;
-using WebApi.Responses;
 
 namespace Aplicacion.Cursos
 {

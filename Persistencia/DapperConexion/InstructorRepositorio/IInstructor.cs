@@ -1,0 +1,14 @@
+﻿using Dominio.StoresProcedures;
+
+namespace Persistencia.DapperConexion.InstructorRepositorio
+{
+    public interface IInstructor
+    {
+        Task<IEnumerable<Instructor>> ObtenerLista();
+        Task<Instructor> ObtenerPorId(Guid id);
+        Task<int> Crear(Instructor instructorModel);
+        Task<int> Actualizar(Instructor instructorModel);
+        Task<int> Eliminar(Guid id);
+
+    }
+}
