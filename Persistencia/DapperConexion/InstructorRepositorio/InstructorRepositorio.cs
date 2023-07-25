@@ -20,7 +20,7 @@ namespace Persistencia.DapperConexion.InstructorRepositorio
         }
 
         #region Rutina crear Instructor modo StoreProcedure
-        public async Task<int> Crear(Instructor instructorModel)
+        public async Task<int> Crear(string nombre,string apellido,string grado)
         {
             var storeProcedure = "sp_nuevo_instructor";
 
@@ -31,10 +31,10 @@ namespace Persistencia.DapperConexion.InstructorRepositorio
                 storeProcedure,
                 new
                 {
-                    Id = Guid.NewGuid(),
-                    Nombre = instructorModel.Nombre,
-                    Apellido = instructorModel.Apellido,
-                    Grado = instructorModel.Grado,
+                    Id       = Guid.NewGuid(),
+                    Nombre   = nombre,
+                    Apellido = apellido,
+                    Grado    = grado,
                 },
                 commandType: CommandType.StoredProcedure
                 );

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Aplicacion.Instructores;
 using Dominio.StoresProcedures;
 
+
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
@@ -17,5 +18,13 @@ namespace WebApi.Controllers
         {
             return await Mediator!.Send(new GetInstructores.Lista());
         }
+
+        [HttpPost]
+        public async Task <ActionResult>CrearInstructor(CreateInstructor.Create create)
+        {
+            await Mediator!.Send(create);
+            return Ok();    
+        }
+
     }
 }
