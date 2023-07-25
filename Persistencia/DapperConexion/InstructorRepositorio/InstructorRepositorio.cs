@@ -2,6 +2,7 @@
 using Dominio.StoresProcedures;
 using Persistencia.DapperConexion.ConexionDapper;
 using System.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Persistencia.DapperConexion.InstructorRepositorio
 {
@@ -14,9 +15,33 @@ namespace Persistencia.DapperConexion.InstructorRepositorio
            this._factoryConnection = factoryConnection; 
         }
 
-        public Task<int> Actualizar(Instructor instructorModel)
+        public async Task<int> Actualizar(Guid Id, string nombre,string apellido,string grado)
         {
-            throw new NotImplementedException();
+            var storeProcedure = "sp_editar_instructor";
+
+            try
+            {
+                var connection = _factoryConnection.GetConnection();
+                var resulatado = await connection.ExecuteAsync(
+                storeProcedure,
+                new
+                {
+                    Id       = Id,
+                    Nombre   = nombre,
+                    Apellido = apellido,
+                    Grado    = grado,
+                },
+                commandType: CommandType.StoredProcedure
+                );
+
+                _factoryConnection.CloseConnection();
+                return resulatado;
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception("No se pudo actualizar instructor", e);
+            }
         }
 
         #region Rutina crear Instructor modo StoreProcedure

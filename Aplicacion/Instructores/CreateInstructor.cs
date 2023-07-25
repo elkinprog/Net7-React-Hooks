@@ -29,7 +29,7 @@ namespace Aplicacion.Instructores
 
                 if (resultado > 0 )
                 {
-                    throw new GenericResponse(HttpStatusCode.OK, "Ocurrio algo !", "No se pudo crear instructor");
+                    throw new GenericResponse(HttpStatusCode.NotFound, "Atención!", "No se pudo crear instructor");
                 }
 
                 throw new GenericResponse(HttpStatusCode.OK, "Bien echo!", "se creo Instructor");

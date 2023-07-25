@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Aplicacion.Instructores;
 using Dominio.StoresProcedures;
-
+using System;
 
 namespace WebApi.Controllers
 {
@@ -25,6 +25,20 @@ namespace WebApi.Controllers
             await Mediator!.Send(create);
             return Ok();    
         }
+
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Instructor>> ActualizarInstructor(Guid id, UpdateInstructores.Update update)
+        {
+            update.Id = id;
+            await Mediator!.Send(update);
+            return Ok();
+        }
+
+
+      
+
+
 
     }
 }
