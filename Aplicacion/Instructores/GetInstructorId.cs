@@ -25,18 +25,8 @@ namespace Aplicacion.Instructores
 
             public async Task<Instructor> Handle(GetId request, CancellationToken cancellationToken)
             {
-                
-
                 var instructor  = await _instructorRepository.ObtenerPorId(request.Id);
    
-
-                if (instructor == null)
-                {
-                    throw new GenericResponse(HttpStatusCode.NotFound, "Atención!", "No se encontro instructor");
-                }
-
-
-
                 return new Instructor
                 {
                     Id = instructor.Id,

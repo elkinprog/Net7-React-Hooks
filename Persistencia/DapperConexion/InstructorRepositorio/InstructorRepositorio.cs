@@ -78,11 +78,10 @@ namespace Persistencia.DapperConexion.InstructorRepositorio
         {
             var storeProcedure = "sp_obtenerid_instructor";
 
-           Instructor instructor = null;
             try
             {
                 var connection = _factoryConnection.GetConnection();
-                    instructor = await connection.QueryFirstAsync<Instructor>(
+                    var instructor = await connection.QueryFirstAsync<Instructor>(
                     storeProcedure,
                     new
                     {
@@ -92,6 +91,8 @@ namespace Persistencia.DapperConexion.InstructorRepositorio
                     commandType: CommandType.StoredProcedure
 
                     );
+
+                _factoryConnection.CloseConnection();
                 return instructor;
             }
             catch (Exception e)
