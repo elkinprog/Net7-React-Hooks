@@ -2,7 +2,7 @@
 using Dominio.StoresProcedures;
 using Persistencia.DapperConexion.ConexionDapper;
 using System.Data;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net;
 
 namespace Persistencia.DapperConexion.InstructorRepositorio
 {
@@ -15,36 +15,9 @@ namespace Persistencia.DapperConexion.InstructorRepositorio
            this._factoryConnection = factoryConnection; 
         }
 
-        public async Task<int> Actualizar(Guid Id, string nombre,string apellido,string grado)
-        {
-            var storeProcedure = "sp_editar_instructor";
 
-            try
-            {
-                var connection = _factoryConnection.GetConnection();
-                var resulatado = await connection.ExecuteAsync(
-                storeProcedure,
-                new
-                {
-                    Id       = Id,
-                    Nombre   = nombre,
-                    Apellido = apellido,
-                    Grado    = grado,
-                },
-                commandType: CommandType.StoredProcedure
-                );
 
-                _factoryConnection.CloseConnection();
-                return resulatado;
-            }
-            catch (Exception e)
-            {
-
-                throw new Exception("No se pudo actualizar instructor", e);
-            }
-        }
-
-        #region Rutina crear Instructor modo StoreProcedure
+        #region Rutina para crear Instructor modo StoreProcedure
         public async Task<int> Crear(string nombre,string apellido,string grado)
         {
             var storeProcedure = "sp_nuevo_instructor";
@@ -75,12 +48,7 @@ namespace Persistencia.DapperConexion.InstructorRepositorio
         #endregion
 
 
-        public Task<int> Eliminar(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        #region  Rutina obtener Instructor modo StoreProcedure
+        #region  Rutina para obtener Instructor modo StoreProcedure
         public async Task<IEnumerable<Instructor>> ObtenerLista()
         {
             IEnumerable<Instructor> instructorList = null;
@@ -100,13 +68,105 @@ namespace Persistencia.DapperConexion.InstructorRepositorio
                 _factoryConnection.CloseConnection();
             }
             return instructorList;
+
         }
         #endregion
 
 
-        public Task<Instructor> ObtenerPorId(Guid id)
+        #region Rutina para obtenerId Instructor modo StoreProcedure
+        public async Task<Instructor> ObtenerPorId(Guid id)
         {
-            throw new NotImplementedException();
+            var storeProcedure = "sp_obtenerid_instructor";
+
+           Instructor instructor = null;
+            try
+            {
+                var connection = _factoryConnection.GetConnection();
+                    instructor = await connection.QueryFirstAsync<Instructor>(
+                    storeProcedure,
+                    new
+                    {
+                        Id = id,
+                    },
+
+                    commandType: CommandType.StoredProcedure
+
+                    );
+                return instructor;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("No se encontro instructor con este id", e);
+            }
+
         }
+        #endregion
+
+
+        #region Rutina para actualizar Instructor modo StoreProcedure
+        public async Task<int> Actualizar(Guid Id, string nombre, string apellido, string grado)
+        {
+            var storeProcedure = "sp_editar_instructor";
+
+            try
+            {
+                var connection = _factoryConnection.GetConnection();
+                var resulatado = await connection.ExecuteAsync(
+                storeProcedure,
+                new
+                {
+                    Id = Id,
+                    Nombre = nombre,
+                    Apellido = apellido,
+                    Grado = grado,
+                },
+                commandType: CommandType.StoredProcedure
+                );
+
+                _factoryConnection.CloseConnection();
+                return resulatado;
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception("No se pudo actualizar instructor", e);
+            }
+        }
+        #endregion
+
+
+        #region Rutina para eliminar Instructor modo StoreProcedure
+        public async Task<int> Eliminar(Guid id)
+        {
+            var storeProcedure = "sp_eliminar_instructor";
+
+            try
+            {
+                var connection = _factoryConnection.GetConnection();
+                var resulatado = await connection.ExecuteAsync(
+                storeProcedure, 
+                new
+                {
+                    Id= id
+                },
+                  commandType: CommandType.StoredProcedure
+                );
+
+                _factoryConnection.CloseConnection();
+                return resulatado;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("No se pudo eliminar instructor", e);
+            }
+        }
+        #endregion
+
+
+       
+
+        
+
+
     }
 }

@@ -19,17 +19,18 @@ namespace Aplicacion.Instructores
             {
                 _instructorRepository = instructorRepository;
             }
-             
+
             public async Task<List<Instructor>> Handle(Lista request, CancellationToken cancellationToken)
             {
-                    var resultado =  await _instructorRepository.ObtenerLista();
+                var resultado = await _instructorRepository.ObtenerLista();
 
                 if (resultado == null)
                 {
-                    throw new GenericResponse(HttpStatusCode.OK, "Atención!", "No existen instructores registrados");
+                    throw new GenericResponse(HttpStatusCode.NotFound, "Atención!", "No existen instructores registrados");
                 }
 
                 return resultado.ToList();
+
             }
         }
 

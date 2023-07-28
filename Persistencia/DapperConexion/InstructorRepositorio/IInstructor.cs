@@ -9,6 +9,5 @@ namespace Persistencia.DapperConexion.InstructorRepositorio
         Task<int> Crear(string nombre, string apellido, string grado);
         Task<int> Actualizar(Guid id ,string nombre, string apellido, string grado);
         Task<int> Eliminar(Guid id);
-
     }
 }

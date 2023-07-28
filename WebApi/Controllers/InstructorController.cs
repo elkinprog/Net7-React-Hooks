@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Aplicacion.Instructores;
 using Dominio.StoresProcedures;
 using System;
+using Microsoft.Identity.Client;
 
 namespace WebApi.Controllers
 {
@@ -17,6 +18,13 @@ namespace WebApi.Controllers
         public async Task<ActionResult<List<Instructor>>> ObtenerInstructores()
         {
             return await Mediator!.Send(new GetInstructores.Lista());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Instructor>> ObtenerId(Guid id)
+        {
+            var instructor = await Mediator!.Send(new GetInstructorId.GetId { Id = id });
+            return Ok(instructor);
         }
 
         [HttpPost]
@@ -35,9 +43,12 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-
-      
-
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Instructor>> EliminaInstructor(Guid id)
+        {
+            var resultado = await Mediator!.Send(new DeleteInstructores.Delete { Id = id });
+            return Ok(resultado);
+        }
 
 
     }

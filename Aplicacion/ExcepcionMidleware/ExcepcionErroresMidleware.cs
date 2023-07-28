@@ -45,8 +45,8 @@ namespace Aplicacion.ExcepcionMiddleware
                     case Exception e:
                         logger.LogError(ex, "Error de servidor");
                         string innerMessage = e.InnerException !=null ? e.InnerException.Message : "";
-                        var error= string.IsNullOrWhiteSpace(e.Message) ? innerMessage : e.Message + "Cola Errores: " + innerMessage;
-                        errores = new { Codigo = (int)HttpStatusCode.InternalServerError, Titulo = "Algo Salio Mal", Mensaje = "Se genero el siguiente Error:" + error };
+                        var error= string.IsNullOrWhiteSpace(e.Message) ? innerMessage : e.Message + " Errores: " + innerMessage;
+                        errores = new { Codigo = (int)HttpStatusCode.InternalServerError, Titulo = "Atención", Mensaje = " " + error };
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
                 }
