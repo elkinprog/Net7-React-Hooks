@@ -1,7 +1,11 @@
 ﻿using Aplicacion.Comentarios;
+using Aplicacion.Cursos;
+using Dominio.Dtos;
 using Dominio.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
+using static Aplicacion.Comentarios.DeleteComentario;
 
 namespace WebApi.Controllers
 {
@@ -16,5 +20,22 @@ namespace WebApi.Controllers
            await Mediator!.Send(data);
            return Ok();
         }
+
+
+
+  
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ComentarioDto>> EliminaComentario(Guid id)
+        {
+            return  await Mediator!.Send(new DeleteComentario.Ejecuta { Id = id });
+        }
+
+
+
+
+
+
+
+
     }
 }
